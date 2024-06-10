@@ -75,22 +75,9 @@ public class StoreServiceImpl implements StoreService {
      * 매장 삭제
      */
     @Override
-    public boolean del(String idList) {
+    public boolean del(long id) {
 
-        if (idList != null && idList.length() > 0) {
-            String[] ids = idList.split(",");
-            for (String x : ids) {
-                long id = 0L;
-                try {
-                    id = Long.parseLong(x);
-                } catch (Exception e) {
-                }
-
-                if (id > 0) {
-                    storeRepository.deleteById(id);
-                }
-            }
-        }
+        storeRepository.deleteById(id);
 
         return true;
     }
@@ -111,7 +98,7 @@ public class StoreServiceImpl implements StoreService {
     public boolean reserve(ReservationInput parameter) {
 
         Optional<Store> optionalStore = storeRepository.findById(parameter.getStoreId());
-        if(!optionalStore.isPresent()){
+        if (!optionalStore.isPresent()) {
             return false;
         }
 

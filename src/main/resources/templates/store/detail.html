@@ -20,7 +20,7 @@
             crossorigin="anonymous"></script>
     <script>
         $(document).ready(function () {
-            $('form').on('submit', function (event) {
+            $('form[name=submitForm]').on('submit', function (event) {
                 event.preventDefault();
 
                 if (!confirm('예약 신청을 하시겠습니까')) {
@@ -43,6 +43,12 @@
 
                 return false
             })
+
+            $('form[name=deleteForm]').on('submit', function() {
+                if (!confirm('해당 매장을 삭제하시겠습니까? ')) {
+                    return false;
+                }
+            });
         })
     </script>
 </head>
@@ -51,6 +57,13 @@
 <div th:replace="/fragments/layout.html :: fragment-manager-body-menu"></div>
 
 <div>
+    <div>
+        <a th:href="'/store/edit?id='+${detail.id}">매장 수정</a>
+        <form name="deleteForm" method="post" action="/store/delete">
+            <input type="hidden" name="id" th:value="${detail.id}"/>
+            <button type="submit">매장 삭제</button>
+        </form>
+    </div>
     <div>
         <h3>등록 번호: <span th:text="${detail.id}"></span></h3>
         <h3>매장 이름: <span th:text="${detail.name}"></span></h3>
@@ -75,7 +88,7 @@
             <tr th:each="num : ${#numbers.sequence(1,detail.getTableAmount())}">
                 <td>
                     <span th:text="${num}+'번 테이블'"></span>
-                    <form th:id="'form' + ${num}" th:method="post">
+                    <form th:id="'form' + ${num}" name="submitForm" th:method="post">
                         <input type="hidden" name="id" th:value="${detail.id}"/>
                         <input type="hidden" name="tableId" th:value="${num}"/>
                         <label for="reservedDt">날짜와 시간을 선택하세요:

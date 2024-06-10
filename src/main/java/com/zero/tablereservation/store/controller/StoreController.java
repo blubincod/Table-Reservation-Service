@@ -28,6 +28,7 @@ public class StoreController {
 
         List<Store> storeList = storeService.list();
 
+        // template에 storeList 전달
         model.addAttribute("list", storeList);
 
         return "store/list";
@@ -108,10 +109,10 @@ public class StoreController {
      * 매장 삭제
      */
     @PostMapping("/store/delete")
-    public String del(Model model, HttpServletRequest request
-            , StoreInput parameter) {
+    public String del(StoreInput parameter) {
 
-//        boolean result = storeService.del(parameter.getIdList());
+        System.out.println(parameter.getId());
+        boolean result = storeService.del(parameter.getId());
 
         return "redirect:/store/list";
     }

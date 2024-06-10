@@ -27,7 +27,7 @@ public interface StoreService {
     /**
      * 매장 정보 삭제
      */
-    boolean del(String idList);
+    boolean del(long id);
 
     /**
      * 매장 상세 정보
