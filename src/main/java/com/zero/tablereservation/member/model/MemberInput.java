@@ -13,5 +13,5 @@ public class MemberInput {
     private String password;
     private String rePassword;
     private String phone;
-    private LocalDateTime loginDate;
+    private LocalDateTime regDt;
 }
