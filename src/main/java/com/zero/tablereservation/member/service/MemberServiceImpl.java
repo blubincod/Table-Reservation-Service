@@ -35,8 +35,10 @@ public class MemberServiceImpl implements MemberService {
             return false;
         }
 
+        // 비밀번호 해시화
         String encPassword = BCrypt.hashpw(parameter.getPassword(), BCrypt.gensalt());
 
+        // member 테이블에 저장
         Member member = Member.builder()
                 .userId(parameter.getUserId())
                 .username(parameter.getUsername())
@@ -50,6 +52,11 @@ public class MemberServiceImpl implements MemberService {
         return true;
     }
 
+    /**
+     * 사용자 권한 부여
+     * ROLE_CLIENT -> 고객
+     * ROLE_MANAGER -> 매니저/점장
+     */
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 

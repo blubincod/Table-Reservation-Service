@@ -17,7 +17,7 @@ public class ApiStoreController {
     private final StoreService storeService;
 
     /**
-     * 예약 요청 처리
+     * 예약 요청
      */
     @PostMapping("/api/store/reservation")
     public ResponseEntity<?> storeReservation(
