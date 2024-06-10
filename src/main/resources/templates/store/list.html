@@ -66,6 +66,9 @@
             <th>
                 수정
             </th>
+            <th>
+                삭제
+            </th>
         </tr>
         </thead>
 
@@ -81,6 +84,7 @@
             <td th:text="${list.tableAmount}">8</td>
             <td th:text="${list.description}">셰프의 맛집</td>
             <td><a th:href="'/store/edit?id='+${list.id}">수정</a></td>
+            <td><a th:href="'/store/delete?id='+${list.id}">삭제</a></td>
         </tr>
         </tbody>
     </table>

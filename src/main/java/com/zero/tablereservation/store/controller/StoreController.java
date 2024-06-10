@@ -104,10 +104,15 @@ public class StoreController {
         return "redirect:/store/list";
     }
 
-
     /**
      * 매장 삭제
      */
+    @PostMapping("/store/delete")
+    public String del(Model model, HttpServletRequest request
+            , StoreInput parameter) {
 
+//        boolean result = storeService.del(parameter.getIdList());
 
+        return "redirect:/store/list";
+    }
 }

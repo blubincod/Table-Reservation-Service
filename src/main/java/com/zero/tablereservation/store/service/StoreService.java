@@ -15,14 +15,19 @@ public interface StoreService {
     boolean register(StoreInput parameter);
 
     /**
-     *매장 정보 수정
+     *매장 목록
+     */
+    List<Store> list();
+
+    /**
+     * 매장 정보 수정
      */
     boolean set(StoreInput parameter);
 
     /**
-     *매장 목록
+     * 매장 정보 삭제
      */
-    List<Store> list();
+    boolean del(String idList);
 
     /**
      * 매장 상세 정보

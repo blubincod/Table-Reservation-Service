@@ -39,6 +39,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.headers().frameOptions().sameOrigin();
 
+        // 권한 없이 접근 가능한 경로
         http.authorizeRequests()
                 .antMatchers("/",
                         "/member/signup"
@@ -50,25 +51,32 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .failureHandler(getFailureHandler())
                 .permitAll();
 
+        // 관리자(admin)만 접근 가능한 경로
         http.authorizeRequests()
                 .antMatchers("/admin/**")
                 .hasAnyAuthority("ROLE_ADMIN");
 
+        // 매니저(manager)만 접근 가능한 경로
         http.authorizeRequests()
-                .antMatchers("/store/register/**","/store/edit/**")
+                .antMatchers("/store/register/**","/store/edit","/store/delete")
                 .hasAnyAuthority("ROLE_MANAGER");
 
+        // 로그아웃 시 세션 초기화
         http.logout()
                 .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
                 .logoutSuccessUrl("/")
                 .invalidateHttpSession(true);
 
+        // 예외 발생 시 에러 페이지로 이동
         http.exceptionHandling()
                 .accessDeniedPage("/error/denied");
 
         super.configure(http);
     }
 
+    /**
+     * 비밀번호 인코더 설정
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(memberService)

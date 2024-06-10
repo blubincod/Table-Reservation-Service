@@ -40,6 +40,15 @@ public class StoreServiceImpl implements StoreService {
     }
 
     /**
+     * 매장 목록
+     */
+    @Override
+    public List<Store> list() {
+
+        return storeRepository.findAll();
+    }
+
+    /**
      * 매장 정보 수정
      */
     @Override
@@ -63,12 +72,27 @@ public class StoreServiceImpl implements StoreService {
     }
 
     /**
-     * 매장 목록
+     * 매장 삭제
      */
     @Override
-    public List<Store> list() {
+    public boolean del(String idList) {
 
-        return storeRepository.findAll();
+        if (idList != null && idList.length() > 0) {
+            String[] ids = idList.split(",");
+            for (String x : ids) {
+                long id = 0L;
+                try {
+                    id = Long.parseLong(x);
+                } catch (Exception e) {
+                }
+
+                if (id > 0) {
+                    storeRepository.deleteById(id);
+                }
+            }
+        }
+
+        return true;
     }
 
     /**
@@ -80,6 +104,9 @@ public class StoreServiceImpl implements StoreService {
         return storeRepository.findById(id).map(StoreDto::of).orElse(null);
     }
 
+    /**
+     * 매장 예약
+     */
     @Override
     public boolean reserve(ReservationInput parameter) {
 
@@ -100,5 +127,6 @@ public class StoreServiceImpl implements StoreService {
 
         return true;
     }
+
 
 }
