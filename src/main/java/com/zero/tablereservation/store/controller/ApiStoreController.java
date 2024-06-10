@@ -37,4 +37,9 @@ public class ApiStoreController {
         //예약 요청을 받은 후 JSON 형태로 응답
         return ResponseEntity.ok().body(parameter);
     }
+
+    /**
+     * 예약자 도착 확인
+     */
+
 }

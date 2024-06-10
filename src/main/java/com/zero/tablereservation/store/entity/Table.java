@@ -17,4 +17,5 @@ public class Table implements TableStatus{
 
     String status; //테이블 가능 여부(예약 가능, 예약 불가능)
 
+    long tableId; // 테이블 아이디
 }
