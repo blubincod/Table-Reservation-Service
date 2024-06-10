@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>매장 상세 페이지</title>
+    <style>
+        .reservation table {
+            border-collapse: collapse;
+        }
+
+        .reservation table th, .reservation table td {
+            border: solid 1px #000;
+            height: 3rem;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+            $('form').on('submit', function (event) {
+                event.preventDefault();
+
+                if (!confirm('예약 신청을 하시겠습니까')) {
+                    return false
+                }
+
+                var $thisForm = $(this);
+                var url = '/api/store/reservation'
+                var parameter = {
+                    storeId: $thisForm.find('input[name=id]').val(),
+                    tableId: $thisForm.find('input[name=tableId]').val(),
+                    reservedDt: $thisForm.find('input[name=reservedDt]').val()
+                }
+                axios.post(url, parameter).then(function (response) {
+                    console.log(response)
+
+                }).catch(function (err) {
+                    console.log(err)
+                })
+
+                return false
+            })
+        })
+    </script>
+</head>
+<body>
+<h1 th:text="${detail.name} + ' 매장 정보'"></h1>
+<div th:replace="/fragments/layout.html :: fragment-manager-body-menu"></div>
+
+<div>
+    <div>
+        <h3>등록 번호: <span th:text="${detail.id}"></span></h3>
+        <h3>매장 이름: <span th:text="${detail.name}"></span></h3>
+
+        <h3>매장 소개</h3>
+        <p th:text="${detail.description}"></p>
+
+        <h3>테이블 수: <span th:text="${detail.tableAmount}"></span></h3>
+
+        <h3>매장 위치</h3>
+        <p>위도:
+            <span th:text="${detail.latitude}"></span>
+        </p>
+        <p>경도:
+            <span th:text="${detail.longitude}"></span>
+        </p>
+    </div>
+    <hr/>
+    <div class="reservation">
+        <h3>테이블 예약</h3>
+        <table>
+            <tr th:each="num : ${#numbers.sequence(1,detail.getTableAmount())}">
+                <td>
+                    <span th:text="${num}+'번 테이블'"></span>
+                    <form th:id="'form' + ${num}" th:method="post">
+                        <input type="hidden" name="id" th:value="${detail.id}"/>
+                        <input type="hidden" name="tableId" th:value="${num}"/>
+                        <label for="reservedDt">날짜와 시간을 선택하세요:
+                            <input type="datetime-local"
+                                   id="reservedDt"
+                                   name="reservedDt"
+                                   max="2077-06-20T21:00"
+                                   min="2000-06-05T12:30"
+                                   th:value="0"
+                                   required>
+                        </label>
+                        <button type="submit">예약하기</button>
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>매장</title>
+    <style>
+        .list table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .list table th, .list table td {
+            border: solid 1px #000;
+        }
+
+        .search-form {
+            position: relative;
+            padding: 5px 0 10px 0;
+            text-align: right;
+        }
+
+        .search-form .total-count {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 20px;
+            float: left;
+        }
+
+        .pager {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .pager a.on {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="/fragments/layout.html :: fragment-manager-body-menu"></div>
+<h1>매장 목록</h1>
+
+<div class="list">
+
+    <table>
+        <thead>
+        <tr>
+            <th>NO</th>
+            <th>
+                매장 이름
+            </th>
+            <th>
+                매장 위도
+            </th>
+            <th>
+                매장 경도
+            </th>
+            <th>
+                테이블 수
+            </th>
+            <th>
+                매장 소개
+            </th>
+            <th>
+                수정
+            </th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="list, x : ${list}">
+            <td th:text="${x.count}">1</td>
+            <td>
+                <a th:text="${list.name}" th:href="'/store/' + ${list.id}">
+                </a>
+            </td>
+            <td th:text="${list.latitude}">34.456</td>
+            <td th:text="${list.longitude}">123.456</td>
+            <td th:text="${list.tableAmount}">8</td>
+            <td th:text="${list.description}">셰프의 맛집</td>
+            <td><a th:href="'/store/edit?id='+${list.id}">수정</a></td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>
